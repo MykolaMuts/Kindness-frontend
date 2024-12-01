@@ -17,7 +17,7 @@ module.exports = {
       backgroundImage: (theme) => ({
         "gradient-yellowred":
           "linear-gradient(90deg, #FF616A 0%, #FFC837 100%)",
-        "mobile-home": "url('./assets/Circles.png')",
+        // "mobile-home": "url('./assets/Circles.png')",
       }),
       fontFamily: {
         dmsans: ["DM Sans", "sans-serif"],

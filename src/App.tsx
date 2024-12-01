@@ -1,8 +1,10 @@
+// import Navbar from "@/scenes/navbar"
+
 function App() {
 
   return (
-    <div className="App">app
-
+    <div className="App bg-gray-20">
+      application
     </div>
   )
 }
