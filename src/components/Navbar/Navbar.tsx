@@ -6,6 +6,8 @@ import Link from "./Link.tsx";
 import {SelectedPages} from "../../App.constants.tsx";
 import useMediaQuery from "../../hooks/useMediaQuery.ts";
 import {Bars3Icon} from "@heroicons/react/16/solid";
+import {useState} from "react";
+import ActionButton from "../../shared/ActionButton.tsx";
 
 type Props = {
   selectedPage: SelectedPages;
@@ -17,6 +19,7 @@ const Navbar =
 
     const flexBetween = "flex items-center justify-between";
     const isAboveMediumSize = useMediaQuery("(min-width: 1060px)");
+    const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
 
     return <nav>
 
@@ -32,6 +35,7 @@ const Navbar =
               <div className={`${flexBetween} w-full`}>
                 {/*Central side*/}
                 <div className={`${flexBetween} w-full gap-8 text-sm`}>
+                  <div className="ek_text">tes</div>
 
                   <Link
                     page="Home"
@@ -61,7 +65,9 @@ const Navbar =
                 {/*Right Side*/}
                 <div className={`${flexBetween} gap-8 bg-amber-400`}>
                   <p>Login</p>
-                  <p>Sign in</p>
+                  <ActionButton setSelectedPage={setSelectedPage}>
+                    Sign in
+                  </ActionButton>
                 </div>
               </div>
 
@@ -70,7 +76,7 @@ const Navbar =
             ) : <button
               className="rounded-full bg-secondary-500"
               onClick={() => {
-                setIsMenuToggled
+                setIsMenuToggled(!isMenuToggled);
               }}
             >
               <Bars3Icon className="h-6 w-6 text-white"/>
