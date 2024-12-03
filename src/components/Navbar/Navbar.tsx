@@ -3,16 +3,20 @@ import "./Navbar.scss";
 // import { BeakerIcon } from '@heroicons/react/24/solid'
 import Logo from '@/assets/Logo.jpg'
 import Link from "./Link.tsx";
+import {SelectedPages} from "../../App.constants.tsx";
+import useMediaQuery from "../../hooks/useMediaQuery.ts";
+import {Bars3Icon} from "@heroicons/react/16/solid";
 
 type Props = {
-  selectedPage: string;
-  setSelectedPage: (page: string) => void;
+  selectedPage: SelectedPages;
+  setSelectedPage: (page: SelectedPages) => void;
 }
 
 const Navbar =
   ({selectedPage, setSelectedPage}: Props) => {
 
     const flexBetween = "flex items-center justify-between";
+    const isAboveMediumSize = useMediaQuery("(min-width: 1060px)");
 
     return <nav>
 
@@ -23,46 +27,59 @@ const Navbar =
             {/*Left side*/}
             <img alt="Logo" src={Logo} className="responsive-image"/>
 
-            {/*Right side*/}
-            <div className={`${flexBetween} w-full gap-8 text-sm`}>
-              <Link
-                page="Home"
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-              />
+            {isAboveMediumSize ? (
+              // Full Screen
+              <div className={`${flexBetween} w-full`}>
+                {/*Central side*/}
+                <div className={`${flexBetween} w-full gap-8 text-sm`}>
+
+                  <Link
+                    page="Home"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+
+                  <Link
+                    page="Create event"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+
+                  <Link
+                    page="Contact Us"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+
+                  <Link
+                    page="About Us"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+                </div>
+
+                {/*Right Side*/}
+                <div className={`${flexBetween} gap-8 bg-amber-400`}>
+                  <p>Login</p>
+                  <p>Sign in</p>
+                </div>
+              </div>
 
 
-              <Link
-                page="Create event"
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-              />
+              // Mobile Screen
+            ) : <button
+              className="rounded-full bg-secondary-500"
+              onClick={() => {
+                setIsMenuToggled
+              }}
+            >
+              <Bars3Icon className="h-6 w-6 text-white"/>
+            </button>}
 
-
-              <Link
-                page="Contact Us"
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-              />
-
-
-              <Link
-                page="About Us"
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-              />
-
-            </div>
-
-            <div className={`${flexBetween} gap-8 bg-amber-400`}>
-              <p>Login</p>
-              <p>Sign in</p>
-            </div>
 
           </div>
 
         </div>
-
       </div>
     </nav>
 
