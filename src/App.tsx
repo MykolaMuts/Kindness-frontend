@@ -5,6 +5,7 @@ import Tests1 from "./components/Tests1.tsx";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import User from "./pages/Users.tsx"
 import Registration from "./pages/Registration.tsx";
+import Home from "./pages/Home.tsx";
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App bg-gray-20">
+    <div className="App">
 
       <Router>
         <Navbar
@@ -35,12 +36,18 @@ function App() {
           setSelectedPage={setSelectedPage}
         />
 
-        <Routes>
-          <Route path="/" element={<User/>}/>
-          <Route path="/registration" element={<Registration/>}/>
-        </Routes>
+        {/*//todo fix later*/}
+        <div className="content" style={{paddingTop: "80px"}}>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/user" element={<User/>}/>
+            <Route path="/register" element={<Registration/>}/>
+          </Routes>
+        </div>
 
-        <Tests1/>
+        <a href="/register">Return to Homepage</a>
+
+        {/*<Tests1/>*/}
 
       </Router>
 
