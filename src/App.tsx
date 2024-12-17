@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import User from "./pages/Users.tsx"
 import Registration from "./pages/Registration.tsx";
 import Home from "./pages/Home.tsx";
+import Login from "./pages/Login.tsx";
 
 function App() {
 
@@ -41,11 +42,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/user" element={<User/>}/>
-            <Route path="/register" element={<Registration/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/registration" element={<Registration/>}/>
           </Routes>
         </div>
-
-        <a href="/register">Return to Homepage</a>
 
         {/*<Tests1/>*/}
 
