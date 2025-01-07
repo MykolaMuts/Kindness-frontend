@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BACKEND_URL } from "../../App.constants";
+import {BACKEND_URL} from "../../shared/App.constants.tsx";
 
 export interface IUserData {
   username: string;
@@ -16,18 +16,19 @@ export const addUser = (userData: IUserData) => {
   });
 };
 
-export const loginUser = (userData: { username: string; password: string }): Promise<void> => {
+export const loginUser = (userData: { username: string; password: string }) => {
   return axios({
     method: 'post',
     url: `${BACKEND_URL}/login/user`,
     data: userData,
-    // withCredentials: true,
+    withCredentials: true,
   });
 };
 
 export const loadUsers = async (): Promise<IUserData[]> => {
-  const response = await axios.get(`${BACKEND_URL}/user/getAll`);
-  return response.data;}
+    const response = await axios.get(`${BACKEND_URL}/user/getAll`);
+    return response.data;
+  }
 ;
 
 export const createUser = async (userData: IUserData) => {
