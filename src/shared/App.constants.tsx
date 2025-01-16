@@ -1,9 +1,10 @@
 export const BACKEND_URL = "http://localhost:8080";
 
 export enum SelectedPages {
-  Home = "home",
+  Home = "/",
   Login = "login",
-  Register = "register",
+  User = "user",
+  Registration = "registration",
   Benefit = "benefit",
   Contact = "contact",
   AboutUs = "aboutus",

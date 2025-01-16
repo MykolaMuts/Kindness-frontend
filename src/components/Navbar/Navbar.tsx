@@ -1,13 +1,12 @@
 import "./Navbar.scss";
 // // import { Bars3Icon, XMarkIcon}
 // import { BeakerIcon } from '@heroicons/react/24/solid'
-import Logo from '@/assets/Logo.jpg'
-import Link from "./Link.tsx";
-import {SelectedPages} from "../../App.constants.tsx";
+import Logo from '@/assets/Logo.jpg';
+import {SelectedPages} from "../../shared/App.constants.tsx";
 import useMediaQuery from "../../hooks/useMediaQuery.ts";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/16/solid";
 import {useState} from "react";
-import ActionButton from "../../shared/ActionButton.tsx";
+import ActionButton from "./ActionButton.tsx";
 
 type Props = {
   isTopOfPage: boolean
@@ -38,29 +37,33 @@ const Navbar =
                 {/*Central side*/}
                 <div className={`${flexBetween} gap-8 text-sm`}>
 
-                  <Link
-                    page="Home"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
+                  {/*<Link*/}
+                  {/*  page="Home"*/}
+                  {/*  selectedPage={selectedPage}*/}
+                  {/*  setSelectedPage={setSelectedPage}*/}
+                  {/*/>*/}
+                  <a href={SelectedPages.Home}>Home</a>
 
-                  <Link
-                    page="Create event"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
+                  {/*<Link*/}
+                  {/*  page="Create event"*/}
+                  {/*  selectedPage={selectedPage}*/}
+                  {/*  setSelectedPage={setSelectedPage}*/}
+                  {/*/>*/}
+                  <a href={SelectedPages.Benefit}>Benefit</a>
 
-                  <Link
-                    page="Contact Us"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
+                  {/*<Link*/}
+                  {/*  page="Contact Us"*/}
+                  {/*  selectedPage={selectedPage}*/}
+                  {/*  setSelectedPage={setSelectedPage}*/}
+                  {/*/>*/}
+                  <a href={SelectedPages.Contact}>Contact Us</a>
 
-                  <Link
-                    page="About Us"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
+                  {/*<Link*/}
+                  {/*  page="About Us"*/}
+                  {/*  selectedPage={selectedPage}*/}
+                  {/*  setSelectedPage={setSelectedPage}*/}
+                  {/*/>*/}
+                  <a href={SelectedPages.AboutUs}>About Us</a>
                 </div>
 
                 {/*Right Side*/}
@@ -101,36 +104,40 @@ const Navbar =
           {/*Menu items*/}
           <div className="ml-[33%] flex flex-col gap-10 text-2xl">
 
-            <Link
-              page="Home"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
+            {/*<Link*/}
+            {/*  page="Home"*/}
+            {/*  selectedPage={selectedPage}*/}
+            {/*  setSelectedPage={setSelectedPage}*/}
+            {/*/>*/}
+            <a href={SelectedPages.Home}>Home</a>
 
-            <Link
-              page="Create event"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
+            {/*<Link*/}
+            {/*  page="Create event"*/}
+            {/*  selectedPage={selectedPage}*/}
+            {/*  setSelectedPage={setSelectedPage}*/}
+            {/*/>*/}
+            <a href={SelectedPages.Benefit}>Benefit</a>
 
-            <Link
-              page="Contact Us"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
+            {/*<Link*/}
+            {/*  page="Contact Us"*/}
+            {/*  selectedPage={selectedPage}*/}
+            {/*  setSelectedPage={setSelectedPage}*/}
+            {/*/>*/}
+            <a href={SelectedPages.Contact}>Contact Us</a>
 
-            <Link
-              page="About Us"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
+            {/*<Link*/}
+            {/*  page="About Us"*/}
+            {/*  selectedPage={selectedPage}*/}
+            {/*  setSelectedPage={setSelectedPage}*/}
+            {/*/>*/}
+            <a href={SelectedPages.AboutUs}>About Us</a>
           </div>
 
         </div>
-        )}
+      )}
 
-</nav>
+    </nav>
 
-}
+  }
 
 export default Navbar
