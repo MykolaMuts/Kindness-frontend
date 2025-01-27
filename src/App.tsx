@@ -8,7 +8,9 @@ import {BrowserRouter} from "react-router-dom";
 
 function App() {
 
-  const [selectedPage, setSelectedPage] = useState<SelectedPages>(SelectedPages.Home);
+  const [selectedPage, setSelectedPage] = useState<SelectedPages>(
+    SelectedPages.Home
+  );
   const [isTopOfPage, setIsTopOfPage] = useState<boolean>(true);
 
   useEffect(() => {
@@ -16,7 +18,6 @@ function App() {
 
       if (window.scrollY === 0) {
         setIsTopOfPage(true);
-        setSelectedPage(SelectedPages.Home);
       } else {
         setIsTopOfPage(false);
       }
