@@ -38,19 +38,10 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <AppRoutes/>
-          <a href={SelectedPages.Login}
-             className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-            Login</a>
-
-          <a href={SelectedPages.User}
-             className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-            User</a>
-          <a href={SelectedPages.Registration}
-             className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-            Registration</a>
-          <Footer/>
         </BrowserRouter>
       </AuthProvider>
+
+      <Footer/>
 
 
     </div>
