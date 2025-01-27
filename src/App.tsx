@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar/Navbar.tsx";
 import {useState, useEffect} from "react";
-import {SelectedPages} from "./shared/App.constants.tsx";
+import {SelectedPages} from "./App.constants.tsx";
 import AppRoutes from "./AppRoutes.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
 import Footer from "./components/Footer/Footer.tsx";
@@ -37,6 +37,16 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <AppRoutes/>
+          <a href={SelectedPages.Login}
+             className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            Login</a>
+
+          <a href={SelectedPages.User}
+             className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            User</a>
+          <a href={SelectedPages.Registration}
+             className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            Registration</a>
           <Footer/>
         </BrowserRouter>
       </AuthProvider>

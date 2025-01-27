@@ -8,4 +8,11 @@ export enum SelectedPages {
   Benefit = "benefit",
   Contact = "contact",
   AboutUs = "aboutus",
+  Admin = "admin",
+  Unauthorized = "unauthorized",
+}
+
+export enum Roles {
+  Admin = "ADMIN",
+  User = "USER",
 }

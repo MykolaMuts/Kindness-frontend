@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {addUser, IUserData, loginUser} from "../../services/user/user.service.tsx";
+import {addUser, IUserData, loginUser} from "../services/user/user.service.tsx";
 
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<IUserData>({

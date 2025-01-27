@@ -1,9 +1,9 @@
 import {Route, Routes} from "react-router-dom";
-import {SelectedPages} from "./shared/App.constants.tsx";
-import Tests1 from "./components/Tests1.tsx";
-import Login from "./components/Login/Login.tsx";
-import Registration from "./components/Registration/Registration.tsx";
-import ProtectedRoute from "./components/ProtectedRouter.tsx";
+import {Roles, SelectedPages} from "./App.constants.tsx";
+import Tests1 from "./pages/Tests1.tsx";
+import Login from "./pages/Login.tsx";
+import Registration from "./pages/Registration.tsx";
+import ProtectedRoute from "./components/ProtectedRouter/ProtectedRouter.tsx";
 import React from "react";
 
 const AppRoutes: React.FC = () => (
@@ -12,8 +12,8 @@ const AppRoutes: React.FC = () => (
           <Route path={SelectedPages.Home} element={<Tests1/>}/>
           <Route path={SelectedPages.Login} element={<Login/>}/>
           <Route path={SelectedPages.Registration} element={<Registration/>}/>
-          <Route element={<ProtectedRoute requiredRoles={['ADMIN']}/>}>
-            <Route path="/admin" element={<Tests1/>}/>
+          <Route element={<ProtectedRoute requiredRoles={[Roles.Admin]}/>}>
+            <Route path={SelectedPages.Admin} element={<Tests1/>}/>
           </Route>
       </Routes>
 

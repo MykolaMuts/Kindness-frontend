@@ -2,7 +2,7 @@ import "./Navbar.scss";
 // // import { Bars3Icon, XMarkIcon}
 // import { BeakerIcon } from '@heroicons/react/24/solid'
 import Logo from '@/assets/Logo.jpg';
-import {SelectedPages} from "../../shared/App.constants.tsx";
+import {SelectedPages} from "../../App.constants.tsx";
 import useMediaQuery from "../../hooks/useMediaQuery.ts";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/16/solid";
 import {useState} from "react";

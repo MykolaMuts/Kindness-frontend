@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BACKEND_URL } from "../../shared/App.constants.tsx";
+import { BACKEND_URL } from "../../App.constants.tsx";
 
 export interface IEventData {
   title: string;
