@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import {loginUser} from "../../services/user/user.service.tsx";
+import { loginUser } from '../../services/user/user.service.tsx';
+import { useAuth } from '../../hooks/useAuth';
 
 const LoginForm: React.FC = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -14,28 +15,17 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
 
     try {
       const response = await loginUser(formData);
       if (response.status === 200) {
-        setSuccess(true);
-        setFormData({ username: '', password: '' });
+        const roles = response.data.role.split(',').map((role: string) => role.trim()) as Role[];
+        login(roles); // Pass roles to the auth context
       } else {
         setError('Unexpected response from server. Please try again.');
       }
     } catch (err: any) {
-      if (err.response) {
-        if (err.response.status === 401) {
-          setError(err.response.data || 'Invalid username or password.');
-        } else if (err.response.status === 500) {
-          setError('An internal server error occurred. Please try again later.');
-        } else {
-          setError(err.response.data || 'An error occurred. Please try again.');
-        }
-      } else {
-        setError('Unable to connect to the server. Please try again later.');
-      }
+      setError(err.response?.data || 'An error occurred. Please try again.');
     }
   };
 
@@ -43,16 +33,9 @@ const LoginForm: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
-
         {error && (
           <div className="p-4 text-sm text-red-600 bg-red-100 border border-red-300 rounded">{error}</div>
         )}
-        {success && (
-          <div className="p-4 text-sm text-green-600 bg-green-100 border border-green-300 rounded">
-            Login successful!
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="username" className="block text-sm font-medium text-gray-600">
@@ -93,6 +76,5 @@ const LoginForm: React.FC = () => {
     </div>
   );
 };
-
 
 export default LoginForm;

@@ -7,6 +7,7 @@ import Registration from "./components/Registration/Registration.tsx";
 // import Home from "./pages/Home.tsx";
 import Login from "./components/Login/Login.tsx";
 import Footer from "./components/Footer/Footer.tsx";
+import ProtectedRoute from "./components/ProtectedRouter.tsx";
 
 function App() {
 
@@ -37,13 +38,34 @@ function App() {
           setSelectedPage={setSelectedPage}
         />
 
+        {/*<Routes>*/}
+        {/*  <Route path="/login" element={<LoginForm />} />*/}
+        {/*  <Route*/}
+        {/*    path="/test"*/}
+        {/*    element={*/}
+        {/*      <ProtectedRoute role="USER">*/}
+        {/*        <Tests1 />*/}
+        {/*      </ProtectedRoute>*/}
+        {/*    }*/}
+        {/*  />*/}
+        {/*  <Route*/}
+        {/*    path="/admin-dashboard"*/}
+        {/*    element={*/}
+        {/*      <ProtectedRoute role="ADMIN">*/}
+        {/*        <Tests1 />*/}
+        {/*      </ProtectedRoute>*/}
+        {/*    }*/}
+        {/*  />*/}
+        {/*</Routes>*/}
 
-        {/*//todo fix later*/}
         <div className="content" style={{paddingTop: "80px"}}>
           <Routes>
-            {/*<Route path={SelectedPages.Home} element={<Home/>}/>*/}
+            <Route path={SelectedPages.Home} element={<Tests1/>}/>
             <Route path={SelectedPages.Login} element={<Login/>}/>
             <Route path={SelectedPages.Registration} element={<Registration/>}/>
+            <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+              <Route path="/admin" element={<Tests1 />} />
+            </Route>
           </Routes>
         </div>
 
@@ -57,9 +79,6 @@ function App() {
         <a href={SelectedPages.Registration}
            className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
           Registration</a>
-
-
-        <Tests1/>
 
         <Footer/>
 
