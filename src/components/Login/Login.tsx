@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { loginUser } from '../../services/user/user.service.tsx';
-import { useAuth } from '../../hooks/useAuth';
+import { loginUser } from '../../services/user/user.service';
+import {useAuth} from "../../hooks/useAuth.tsx";
 
 const LoginForm: React.FC = () => {
-  const { login } = useAuth();
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState<string | null>(null);
+  // const [success, setSuccess] = useState<boolean>(false);
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -15,21 +16,33 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setError(null);
+    // setSuccess(false);
 
     try {
       const response = await loginUser(formData);
       if (response.status === 200) {
-        const roles = response.data.role.split(',').map((role: string) => role.trim()) as Role[];
-        login(roles); // Pass roles to the auth context
+        const user = response.data;
+        login({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role.split(', ').map((r: string) => r.trim()), // Parse roles into an array
+        });
+        // setSuccess(true);
+        setFormData({ username: '', password: '' });
       } else {
         setError('Unexpected response from server. Please try again.');
       }
     } catch (err: any) {
-      setError(err.response?.data || 'An error occurred. Please try again.');
+      if (err.response) {
+        setError(err.response.data || 'Invalid username or password.');
+      } else {
+        setError('Unable to connect to the server. Please try again later.');
+      }
     }
   };
 
-  return (
+return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>

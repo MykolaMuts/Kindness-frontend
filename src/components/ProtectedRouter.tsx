@@ -1,18 +1,20 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import {useAuth} from "../hooks/useAuth.tsx";
 
 interface ProtectedRouteProps {
-  allowedRoles: ('USER' | 'ADMIN')[];
+  requiredRoles?: string[];
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
-  const { isAuthenticated, userRoles } = useAuth();
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ requiredRoles }) => {
+  const { user, isAuthenticated } = useAuth();
 
-  const hasAccess = allowedRoles.some(role => userRoles.includes(role));
-
-  if (!isAuthenticated || !hasAccess) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
+  }
+
+  if (requiredRoles && !requiredRoles.some(role => user?.role.includes(role))) {
+    return <Navigate to="/unauthorized" />;
   }
 
   return <Outlet />;

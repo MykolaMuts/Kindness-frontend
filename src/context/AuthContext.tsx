@@ -1,36 +1,40 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState } from 'react';
 
-type Role = 'USER' | 'ADMIN';
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  role: string[];
+}
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  userRoles: Role[];
-  login: (roles: Role[]) => void;
+  user: User | null;
+  login: (user: User) => void;
   logout: () => void;
+  isAuthenticated: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(() => {
+    console.log('AuthProvider initialized'); // Add this
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [userRoles, setUserRoles] = useState<Role[]>([]);
-
-  const login = (roles: Role[]) => {
-    setIsAuthenticated(true);
-    setUserRoles(roles);
+  const login = (userData: User) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
-    setUserRoles([]);
+    setUser(null);
+    localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRoles, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );
