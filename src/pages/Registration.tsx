@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {addUser, IUserData, loginUser} from "../services/user/user.service.tsx";
+import {addUser, IUserData} from "../services/user/user.service.tsx";
 
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<IUserData>({
@@ -23,7 +23,6 @@ const RegistrationForm: React.FC = () => {
     try {
       const response = await addUser(formData);
       if (response.status === 201) {
-        await loginUser({ username: formData.username, password: formData.password });
         setSuccess(true);
         setFormData({ username: '', password: '', email: '' });
       } else {
@@ -53,7 +52,7 @@ const RegistrationForm: React.FC = () => {
           <div className="p-4 text-sm text-red-600 bg-red-100 border border-red-300 rounded">{error}</div>
         )}
         {success && (
-          <div className="p-4 text-sm text-green-600 bg-green-100 border border-green-300 rounded">Registration and login successful!</div>
+          <div className="p-4 text-sm text-green-600 bg-green-100 border border-green-300 rounded">Registration successful!</div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
