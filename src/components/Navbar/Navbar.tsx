@@ -40,7 +40,7 @@ const Navbar = ({ isTopOfPage}: Props) => {
                 {/* Central side */}
                 <div className={`${flexBetween} gap-8 text-sm`}>
                   <NavbarLink name="Home" page={SelectedPages.Home} />
-                  <NavbarLink name="Create Event" page={SelectedPages.CreateEvent} />
+                  <NavbarLink name="Create Event" page={SelectedPages.Event} />
                   <NavbarLink name="Contact Us" page={SelectedPages.Contact} />
                   <NavbarLink name="About Us" page={SelectedPages.About} />
                 </div>
@@ -113,7 +113,7 @@ const Navbar = ({ isTopOfPage}: Props) => {
             )}
 
             <NavbarLink name="Home" page={SelectedPages.Home} />
-            <NavbarLink name="Create Event" page={SelectedPages.CreateEvent} />
+            <NavbarLink name="Create Event" page={SelectedPages.Event} />
             <NavbarLink name="Contact Us" page={SelectedPages.Contact} />
             <NavbarLink name="About Us" page={SelectedPages.About} />
           </div>

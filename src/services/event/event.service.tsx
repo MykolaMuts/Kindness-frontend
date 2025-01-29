@@ -2,6 +2,7 @@ import axios from "axios";
 import { BACKEND_URL } from "../../App.constants.tsx";
 
 export interface IEventData {
+  authorId: number;
   title: string;
   description: string;
   location: string;
@@ -13,6 +14,6 @@ export const addEvent = (eventData: IEventData) => {
     method: 'post',
     url: `${BACKEND_URL}/event/add`,
     data: eventData,
-    // withCredentials: true,
+    withCredentials: true,
   });
 };
