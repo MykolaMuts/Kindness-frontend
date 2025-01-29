@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import {addUser, IUserData, loginUser} from "../services/user/user.service.tsx";
+import {addUser, IRegistrationForm} from "../services/user/user.service.tsx";
+import {useAuth} from "../hooks/useAuth.tsx";
+import {SelectedPages} from "../App.constants.tsx";
+import {useNavigate} from "react-router-dom";
 
 const RegistrationForm: React.FC = () => {
-  const [formData, setFormData] = useState<IUserData>({
+  const [formData, setFormData] = useState<IRegistrationForm>({
     username: '',
     password: '',
     email: '',
@@ -10,6 +13,8 @@ const RegistrationForm: React.FC = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -23,7 +28,7 @@ const RegistrationForm: React.FC = () => {
     try {
       const response = await addUser(formData);
       if (response.status === 201) {
-        await loginUser({ username: formData.username, password: formData.password });
+        await login(formData.username, formData.password);
         setSuccess(true);
         setFormData({ username: '', password: '', email: '' });
       } else {
@@ -43,6 +48,10 @@ const RegistrationForm: React.FC = () => {
       }
     }
   };
+
+  if(success){
+    navigate(SelectedPages.Home);
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

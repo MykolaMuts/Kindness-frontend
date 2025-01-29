@@ -2,17 +2,25 @@ import axios from "axios";
 import {BACKEND_URL} from "../../App.constants.tsx";
 
 export interface IUserData {
+  id: number;
   username: string;
   password: string;
   email: string;
+  role: string[];
 }
 
-export const addUser = (userData: IUserData) => {
+export interface IRegistrationForm {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export const addUser = (userData: IRegistrationForm) => {
   return axios({
     method: 'post',
     url: `${BACKEND_URL}/register/user`,
     data: userData,
-    // withCredentials: true,
+    withCredentials: true,
   });
 };
 

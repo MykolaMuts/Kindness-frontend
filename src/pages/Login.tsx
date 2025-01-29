@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
-import {loginUser} from '../services/user/user.service.tsx';
-import {useAuth} from "../hooks/useAuth.tsx";
-import {useNavigate} from "react-router-dom";
-import {SelectedPages} from "../App.constants.tsx";
+import React, { useState } from 'react';
+import { useAuth } from '../hooks/useAuth.tsx';
+import { useNavigate } from 'react-router-dom';
+import { SelectedPages } from '../App.constants.tsx';
 
 const LoginForm: React.FC = () => {
-  const [formData, setFormData] = useState({username: '', password: ''});
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const {login} = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value});
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -22,23 +22,12 @@ const LoginForm: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await loginUser(formData);
-      if (response.status === 200) {
-        const user = response.data;
-        login({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          role: user.role.split(', ').map((r: string) => r.trim()),
-        });
-        navigate(SelectedPages.Home);
-
-        setFormData({username: '', password: ''});
-      } else {
-        setError('Unexpected response from server. Please try again.');
-      }
+      await login(formData.username, formData.password); // Use the login function from AuthContext
+      setFormData({ username: '', password: '' }); // Clear the form
+      setSuccess(true);
     } catch (err: any) {
       if (err.response) {
+        setSuccess(false);
         if (err.response.status === 401) {
           setError(err.response.data || 'Invalid username or password.');
         } else if (err.response.status === 500) {
@@ -53,6 +42,10 @@ const LoginForm: React.FC = () => {
       setLoading(false);
     }
   };
+
+  if(success){
+    navigate(SelectedPages.Home);
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen">
