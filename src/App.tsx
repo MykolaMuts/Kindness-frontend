@@ -1,6 +1,5 @@
 import Navbar from "./components/Navbar/Navbar.tsx";
 import {useState, useEffect} from "react";
-import {SelectedPages} from "./App.constants.tsx";
 import AppRoutes from "./AppRoutes.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
 import Footer from "./components/Footer/Footer.tsx";
@@ -8,9 +7,6 @@ import {BrowserRouter} from "react-router-dom";
 
 function App() {
 
-  const [selectedPage, setSelectedPage] = useState<SelectedPages>(
-    SelectedPages.Home
-  );
   const [isTopOfPage, setIsTopOfPage] = useState<boolean>(true);
 
   useEffect(() => {
@@ -29,14 +25,13 @@ function App() {
   return (
     <div className="App">
 
-      <Navbar
-        isTopOfPage={isTopOfPage}
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-      />
+
 
       <AuthProvider>
         <BrowserRouter>
+          <Navbar
+            isTopOfPage={isTopOfPage}
+          />
           <AppRoutes/>
         </BrowserRouter>
       </AuthProvider>
