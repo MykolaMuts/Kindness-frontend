@@ -1,7 +1,7 @@
 import "./Navbar.scss";
 // // import { Bars3Icon, XMarkIcon}
 // import { BeakerIcon } from '@heroicons/react/24/solid'
-import Logo from '@/assets/Logo.jpg';
+import Logo from '@/assets/Logo.png';
 import {SelectedPages} from "../../App.constants.tsx";
 import useMediaQuery from "../../hooks/useMediaQuery.ts";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/16/solid";
@@ -63,10 +63,16 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
 
                 {/*Right Side*/}
                 <div className={`${flexBetween} gap-8`}>
-                  <p>Login</p>
+
+                  <Link
+                    page="Login"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+
                   <a
                     className="rounded-md bg-secondary-500 px-10 py-2 hover:bg-primary-500 hover:text-white"
-                    href={SelectedPages.Login}
+                    href={SelectedPages.Registration}
                   >Sign In</a>
                 </div>
               </div>
@@ -74,10 +80,8 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
 
               // Mobile Screen
             ) : <button
-              className="rounded-full bg-secondary-500"
-              onClick={() => {
-                setIsMenuToggled(!isMenuToggled);
-              }}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary-500"
+              onClick={() => setIsMenuToggled(!isMenuToggled)}
             >
               <Bars3Icon className="h-6 w-6 text-white"/>
             </button>}
