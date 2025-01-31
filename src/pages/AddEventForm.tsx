@@ -10,7 +10,7 @@ interface EventFormData {
 }
 
 const AddEventForm: React.FC = () => {
-  const { user } = useAuth(); // Get the authenticated user
+  const { user } = useAuth();
   const [formData, setFormData] = useState<EventFormData>({
     title: '',
     description: '',
@@ -38,7 +38,7 @@ const AddEventForm: React.FC = () => {
     }
 
     const eventData = {
-      authorId: user.id, // Add the authorId from the authenticated user
+      authorId: user.id,
       ...formData,
     };
 
@@ -46,8 +46,7 @@ const AddEventForm: React.FC = () => {
     setError(null);
 
     try {
-      await addEvent(eventData); // Use the service to add the event
-      // Reset the form after successful submission
+      await addEvent(eventData);
       setFormData({
         title: '',
         description: '',

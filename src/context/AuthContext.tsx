@@ -1,5 +1,5 @@
 import React, {createContext, useState} from 'react';
-import {IUserData, loginUser} from '../services/user/user.service.tsx';
+import {IUserData, loginUser, logoutUser} from '../services/user/user.service.tsx';
 
 interface AuthContextType {
   user: IUserData | null;
@@ -34,6 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
   };
 
   const logout = () => {
+    logoutUser()
     setUser(null);
     localStorage.removeItem('user');
   };

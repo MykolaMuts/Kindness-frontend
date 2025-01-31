@@ -33,6 +33,14 @@ export const loginUser = (userData: { username: string; password: string }) => {
   });
 };
 
+export const logoutUser = () => {
+  return axios({
+    method: 'post',
+    url: `${BACKEND_URL}/logout`,
+    withCredentials: true,
+  });
+};
+
 export const loadUsers = async (): Promise<IUserData[]> => {
     const response = await axios.get(`${BACKEND_URL}/user/getAll`);
     return response.data;
