@@ -23,15 +23,13 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App pt-20">
 
 
 
       <AuthProvider>
         <BrowserRouter>
-          <Navbar
-            isTopOfPage={isTopOfPage}
-          />
+          <Navbar isTopOfPage={isTopOfPage}/>
           <AppRoutes/>
         </BrowserRouter>
       </AuthProvider>
