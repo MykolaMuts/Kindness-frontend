@@ -13,7 +13,15 @@ export enum SelectedPages {
   Unauthorized = "unauthorized",
 }
 
+export enum ScreenSize {
+  Small ="(min-width: 860px)"
+}
+
 export enum Roles {
   Admin = "ADMIN",
   User = "USER",
+}
+
+export enum ServiceCategory {
+
 }

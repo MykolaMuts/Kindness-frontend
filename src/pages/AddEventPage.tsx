@@ -9,7 +9,7 @@ interface EventFormData {
   date: string;
 }
 
-const AddEventForm: React.FC = () => {
+const AddEventPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState<EventFormData>({
     title: '',
@@ -137,4 +137,4 @@ const AddEventForm: React.FC = () => {
   );
 };
 
-export default AddEventForm;
+export default AddEventPage;

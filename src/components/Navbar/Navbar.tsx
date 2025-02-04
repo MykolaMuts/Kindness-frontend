@@ -1,6 +1,6 @@
 import "./Navbar.scss";
 import Logo from '@/assets/Logo.png';
-import {SelectedPages} from "../../App.constants.tsx";
+import {ScreenSize, SelectedPages} from "../../App.constants.tsx";
 import useMediaQuery from "../../hooks/useMediaQuery.ts";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/16/solid";
 import {useState} from "react";
@@ -14,7 +14,7 @@ type Props = {
 
 const Navbar = ({isTopOfPage}: Props) => {
   const flexBetween = "flex items-center justify-between";
-  const isAboveMediumSize = useMediaQuery("(min-width: 860px)");
+  const isAboveMediumSize = useMediaQuery(ScreenSize.Small);
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
   const navbarBackgroundColor = isTopOfPage ? "" : "bg-primary-100 drop-shadow";
 

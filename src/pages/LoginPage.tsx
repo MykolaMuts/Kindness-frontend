@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import {addUser, IRegistrationForm} from "../services/user/user.service.tsx";
-import {useAuth} from "../hooks/useAuth.tsx";
-import {SelectedPages} from "../App.constants.tsx";
-import {useNavigate} from "react-router-dom";
+import { useAuth } from '../hooks/useAuth.tsx';
+import { useNavigate } from 'react-router-dom';
+import { SelectedPages } from '../App.constants.tsx';
 
-const RegistrationForm: React.FC = () => {
-  const [formData, setFormData] = useState<IRegistrationForm>({
-    username: '',
-    password: '',
-    email: '',
-  });
-
+const LoginPage: React.FC = () => {
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -24,28 +20,27 @@ const RegistrationForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
+    setLoading(true);
+
     try {
-      const response = await addUser(formData);
-      if (response.status === 201) {
-        await login(formData.username, formData.password);
-        setSuccess(true);
-        setFormData({ username: '', password: '', email: '' });
-      } else {
-        setError('Unexpected response from server. Please try again.');
-      }
+      await login(formData.username, formData.password); // Use the login function from AuthContext
+      setFormData({ username: '', password: '' }); // Clear the form
+      setSuccess(true);
     } catch (err: any) {
       if (err.response) {
-        if (err.response.status === 400) {
-          setError(err.response.data || 'Invalid registration details.');
+        setSuccess(false);
+        if (err.response.status === 401) {
+          setError(err.response.data || 'Invalid username or password.');
         } else if (err.response.status === 500) {
           setError('An internal server error occurred. Please try again later.');
         } else {
-          setError('An unknown error occurred. Please try again.');
+          setError(err.response.data || 'An error occurred. Please try again.');
         }
       } else {
         setError('Unable to connect to the server. Please try again later.');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,15 +49,12 @@ const RegistrationForm: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-700">Register</h2>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-8 space-y-6">
+        <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
 
         {error && (
           <div className="p-4 text-sm text-red-600 bg-red-100 border border-red-300 rounded">{error}</div>
-        )}
-        {success && (
-          <div className="p-4 text-sm text-green-600 bg-green-100 border border-green-300 rounded">Registration successful!</div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -75,20 +67,6 @@ const RegistrationForm: React.FC = () => {
               id="username"
               name="username"
               value={formData.username}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 border rounded-lg focus:outline-none focus:ring focus:ring-indigo-300"
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
               onChange={handleChange}
               required
               className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 border rounded-lg focus:outline-none focus:ring focus:ring-indigo-300"
@@ -111,8 +89,9 @@ const RegistrationForm: React.FC = () => {
           <button
             type="submit"
             className="w-full px-4 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+            disabled={loading}
           >
-            Register
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
       </div>
@@ -120,4 +99,4 @@ const RegistrationForm: React.FC = () => {
   );
 };
 
-export default RegistrationForm;
+export default LoginPage;
