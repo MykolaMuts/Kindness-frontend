@@ -3,6 +3,7 @@ import {addUser, IRegistrationForm} from "../services/user/user.service.tsx";
 import {useAuth} from "../hooks/useAuth.tsx";
 import {SelectedPages} from "../App.constants.tsx";
 import {useNavigate} from "react-router-dom";
+import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
 
 const RegistrationPage: React.FC = () => {
   const [formData, setFormData] = useState<IRegistrationForm>({
@@ -58,12 +59,12 @@ const RegistrationPage: React.FC = () => {
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-700">Register</h2>
 
-        {error && (
-          <div className="p-4 text-sm text-red-600 bg-red-100 border border-red-300 rounded">{error}</div>
-        )}
-        {success && (
-          <div className="p-4 text-sm text-green-600 bg-green-100 border border-green-300 rounded">Registration successful!</div>
-        )}
+        {/* Display error message */}
+        {error && <ShowRequestStatus type="error" message={error} />}
+
+        {/* Display success message */}
+        {success && <ShowRequestStatus type="success" message="Login successful!" />}
+
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

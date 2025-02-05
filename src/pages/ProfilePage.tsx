@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import {updateProfile, uploadProfilePicture} from "../services/user/user.service.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
 
 
 const categoriesList = [
@@ -24,6 +25,9 @@ export default function ProfilePage() {
     location: "",
   });
 
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [newCategory, setNewCategory] = useState("");
 
@@ -45,7 +49,7 @@ export default function ProfilePage() {
     if (selectedFile) {
       try {
         const url = await uploadProfilePicture(user.username, selectedFile);
-        setUser((prev) => ({ ...prev, profilePictureUrl: url }));
+        setUser((prev) => ({...prev, profilePictureUrl: url}));
       } catch (error) {
         console.error(error);
         alert("Upload failed!");
@@ -60,10 +64,21 @@ export default function ProfilePage() {
         category: newCategory ? newCategory : undefined,
         location: user.location,
       });
-      alert("Profile updated successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Profile update failed!");
+      setError(null);
+      setSuccess(true);
+    } catch (err: any) {
+      if (err.response) {
+        setSuccess(false);
+        if (err.response.status === 401) {
+          setError(err.response.data || 'Invalid user data');
+        } else if (err.response.status === 500) {
+          setError('An internal server error occurred. Please try again later.');
+        } else {
+          setError(err.response.data || 'An error occurred. Please try again.');
+        }
+      } else {
+        setError('Unable to connect to the server. Please try again later.');
+      }
     }
   };
 
@@ -78,7 +93,7 @@ export default function ProfilePage() {
           alt="Profile"
           className="w-32 h-32 rounded-full border mb-2"
         />
-        <input type="file" onChange={handleFileChange} className="mb-2" />
+        <input type="file" onChange={handleFileChange} className="mb-2"/>
         <button
           onClick={handleUpload}
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
@@ -93,7 +108,7 @@ export default function ProfilePage() {
         <textarea
           className="w-full p-2 border rounded-md"
           value={user.description}
-          onChange={(e) => setUser((prev) => ({ ...prev, description: e.target.value }))}
+          onChange={(e) => setUser((prev) => ({...prev, description: e.target.value}))}
         />
       </div>
 
@@ -150,7 +165,7 @@ export default function ProfilePage() {
         <select
           className="w-full p-2 border rounded-md"
           value={user.location}
-          onChange={(e) => setUser((prev) => ({ ...prev, location: e.target.value }))}
+          onChange={(e) => setUser((prev) => ({...prev, location: e.target.value}))}
         >
           <option value="">Select City</option>
           {citiesList.map((city) => (
@@ -161,13 +176,19 @@ export default function ProfilePage() {
         </select>
       </div>
 
-      {/* Save Button */}
-      <button
-        onClick={handleUpdateProfile}
-        className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-      >
-        Save Changes
-      </button>
+      <div className="mb-4">
+        {/* Save Button */}
+        <button
+          onClick={handleUpdateProfile}
+          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+        >
+          Save Changes
+        </button>
+
+        {error && <ShowRequestStatus type="error" message={error}/>}
+
+        {success && <ShowRequestStatus type="success" message="Profile updated successfully!"/>}
+      </div>
     </div>
   );
 }

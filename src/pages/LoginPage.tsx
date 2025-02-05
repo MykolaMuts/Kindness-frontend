@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.tsx';
 import { useNavigate } from 'react-router-dom';
 import { SelectedPages } from '../App.constants.tsx';
+import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -53,9 +54,8 @@ const LoginPage: React.FC = () => {
       <div className="w-full max-w-md p-8 space-y-6">
         <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
 
-        {error && (
-          <div className="p-4 text-sm text-red-600 bg-red-100 border border-red-300 rounded">{error}</div>
-        )}
+        {/* Display error message */}
+        {error && <ShowRequestStatus type="error" message={error} />}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

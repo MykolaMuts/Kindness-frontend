@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {useAuth} from "../hooks/useAuth.tsx";
 import {addEvent} from "../services/event/event.service.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
 
 interface EventFormData {
   title: string;
@@ -64,7 +65,10 @@ const AddEventPage: React.FC = () => {
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Add New Event</h2>
-      {error && <div className="text-red-500 mb-4">{error}</div>}
+
+      {/* Display error message */}
+      {error && <ShowRequestStatus type="error" message={error} />}
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
