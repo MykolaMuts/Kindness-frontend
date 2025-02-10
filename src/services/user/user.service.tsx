@@ -19,7 +19,7 @@ export interface IRegistrationForm {
 
 export interface IUserServiceData {
   description: string;
-  serviceCategory: string;
+  serviceCategory: string[];
   city: string;
 }
 
@@ -66,26 +66,29 @@ export async function uploadProfilePicture(username: string, file: File): Promis
   return data.profilePictureUrl;
 }
 
-export async function updateProfile(username: string, profileData: any) {
-  const response = await fetch(`/users/${username}/update-profile`, {
+export async function updateUserServiceData(username: string, data: IUserServiceData) {
+  const response = await fetch(`${BACKEND_URL}/user/${username}/update-profile`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(profileData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Equivalent to withCredentials: true
+    body: JSON.stringify(data), // Convert the data to JSON
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to update profile");
-  }
+  //
+  // if (!response.ok) {
+  //   throw new Error(`Failed to update profile: ${response.statusText}`);
+  // }
 
   return response.json();
 }
 
 export const loadUsers = async (): Promise<IUserData[]> => {
-    const response = await axios.get(`${BACKEND_URL}/user/getAll`);
+    const response = await axios.get(`${BACKEND_URL}/users/getAll`);
     return response.data;
   }
 ;
 
 export const createUser = async (userData: IUserData) => {
-  return await axios.post(`${BACKEND_URL}/user/create`, userData);
+  return await axios.post(`${BACKEND_URL}/users/create`, userData);
 };

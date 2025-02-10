@@ -22,6 +22,15 @@ export enum Roles {
   User = "USER",
 }
 
-export enum ServiceCategory {
+export const categoriesList = [
+  "PLUMBER",
+  "ELECTRICIAN",
+  "LANGUAGE_TUTOR",
+  "MECHANIC",
+  "CARPENTER",
+  "HUSBAND_FOR_AN_HOUR",
+  "HOUSEHOLD_APPLIANCES_INSTALLER",
+  "OTHER",
+];
 
-}
+export const citiesList = ["New York", "Los Angeles", "Chicago", "Houston", "Miami"]; // Example cities
