@@ -1,5 +1,5 @@
 import React, {createContext, useState, useEffect} from 'react';
-import {IUserData, loginUser, logoutUser} from '../services/user/user.service.tsx';
+import {fetchUserData, IUserData, loginUser, logoutUser} from '../services/user/user.service.tsx';
 
 interface AuthContextType {
   user: IUserData | null;
@@ -14,7 +14,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
   console.log('AuthProvider initialized');
 
   const [user, setUser] = useState<IUserData | null>(null);
-
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -23,16 +22,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
   }, []);
 
   const login = async (username: string, password: string) => {
+    const response = await loginUser({username, password});
+    if (response.status === 200 && response.data.token) {
+      const jwtToken = response.data.token;
+      console.log(jwtToken);
+
+      localStorage.setItem("token", jwtToken);
+      await getUserInfo()
+
+    } else {
+      throw new Error('Unexpected response from server.');
+    }
+  };
+
+  const getUserInfo = async () => {
     try {
-      const response = await loginUser({username, password});
+      console.log("Getting user information");
+      const response = await fetchUserData();
       if (response.status === 200) {
         setUser(response.data);
-        localStorage.setItem('user', JSON.stringify(response.data)); // ✅ Store correct user data
+        localStorage.setItem("user", JSON.stringify(response.data));
       } else {
-        throw new Error('Unexpected response from server.');
+        logout(); // If fetching fails, log out
       }
     } catch (err) {
-      throw err;
+      console.error("Failed to fetch user info:", err);
+      logout();
     }
   };
 
@@ -41,6 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     logoutUser();
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   return (

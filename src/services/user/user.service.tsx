@@ -35,8 +35,19 @@ export const addUser = (userData: IRegistrationForm) => {
 export const loginUser = (userData: { username: string; password: string }) => {
   return axios({
     method: 'post',
-    url: `${BACKEND_URL}/login/user`,
+    url: `${BACKEND_URL}/auth/login`,
     data: userData,
+    withCredentials: true,
+  });
+};
+
+export const fetchUserData = async () => {
+  return axios({
+    method: 'get',
+    url: `${BACKEND_URL}/auth/me`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
     withCredentials: true,
   });
 };
@@ -49,46 +60,31 @@ export const logoutUser = () => {
   });
 };
 
+export async function updateUserServiceData(username: string, data: IUserServiceData) {
+  const response = await fetch(`${BACKEND_URL}/user/${username}/update-profile`, {
+    method: "put",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
 export async function uploadProfilePicture(username: string, file: File): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch(`/user/${username}/upload-profile-picture`, {
-    method: "POST",
+  const response = await fetch(`${BACKEND_URL}/user/${username}/upload-profile-picture`, {
+    method: "post",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    credentials: "include",
     body: formData,
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to upload profile picture");
-  }
-
+  
   const data = await response.json();
   return data.profilePictureUrl;
 }
-
-export async function updateUserServiceData(username: string, data: IUserServiceData) {
-  const response = await fetch(`${BACKEND_URL}/user/${username}/update-profile`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // Equivalent to withCredentials: true
-    body: JSON.stringify(data), // Convert the data to JSON
-  });
-  //
-  // if (!response.ok) {
-  //   throw new Error(`Failed to update profile: ${response.statusText}`);
-  // }
-
-  return response.json();
-}
-
-export const loadUsers = async (): Promise<IUserData[]> => {
-    const response = await axios.get(`${BACKEND_URL}/users/getAll`);
-    return response.data;
-  }
-;
-
-export const createUser = async (userData: IUserData) => {
-  return await axios.post(`${BACKEND_URL}/users/create`, userData);
-};
