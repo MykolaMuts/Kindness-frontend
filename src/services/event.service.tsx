@@ -1,13 +1,5 @@
 import axios from "axios";
-import { BACKEND_URL } from "../../App.constants.tsx";
-
-export interface IEventData {
-  authorId: number;
-  title: string;
-  description: string;
-  location: string;
-  date: string;
-}
+import {BACKEND_URL, IEventData} from "../App.constants.tsx";
 
 export const addEvent = (eventData: IEventData) => {
   return axios({

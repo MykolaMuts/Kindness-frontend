@@ -1,5 +1,6 @@
 import React, {createContext, useState, useEffect} from 'react';
-import {fetchUserData, IUserData, loginUser, logoutUser} from '../services/user/user.service.tsx';
+import {fetchUserData, loginUser, logoutUser} from '../services/user.service.tsx';
+import {IUserData} from "../App.constants.tsx";
 
 interface AuthContextType {
   user: IUserData | null;
@@ -55,8 +56,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     console.log('Logout');
     logoutUser();
     setUser(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (

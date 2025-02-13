@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {addUser, IRegistrationForm} from "../services/user/user.service.tsx";
+import {addUser} from "../services/user.service.tsx";
 import {useAuth} from "../hooks/useAuth.tsx";
-import {SelectedPages} from "../App.constants.tsx";
+import {IRegistrationForm, SelectedPages} from "../App.constants.tsx";
 import {useNavigate} from "react-router-dom";
 import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
 

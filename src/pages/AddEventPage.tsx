@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useAuth} from "../hooks/useAuth.tsx";
-import {addEvent} from "../services/event/event.service.tsx";
+import {addEvent} from "../services/event.service.tsx";
 import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
 
 interface EventFormData {

@@ -1,16 +1,46 @@
 export const BACKEND_URL = "http://localhost:8080";
 
 export enum SelectedPages {
-  Home = "home",
-  Login = "login",
-  Event = "createEvent",
-  User = "user",
-  Registration = "registration",
-  Benefit = "benefit",
-  Contact = "contact",
-  About = "aboutus",
-  Admin = "admin",
-  Unauthorized = "unauthorized",
+  Home = "/home",
+  Login = "/login",
+  Event = "/createEvent",
+  User = "/user",
+  Registration = "/registration",
+  Benefit = "/benefit",
+  Contact = "/contact",
+  About = "/aboutus",
+  Admin = "/admin",
+  Unauthorized = "/unauthorized",
+}
+
+export interface IUserData {
+  id: number;
+  profilePicUrl: string;
+  username: string;
+  password: string;
+  email: string;
+  role: string[];
+  serviceData : IUserServiceData
+}
+
+export interface IRegistrationForm {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface IUserServiceData {
+  description: string;
+  serviceCategory: string[];
+  city: string;
+}
+
+export interface IEventData {
+  authorId: number;
+  title: string;
+  description: string;
+  location: string;
+  date: string;
 }
 
 export enum ScreenSize {
