@@ -20,18 +20,29 @@ export const uploadProfilePicture = async (file: File): Promise<string> => {
   const formData = new FormData();
   formData.append("file", file);
 
-  try {
-    const response = await axios({
-      url: `${BACKEND_URL}/picture/upload`,
-      method: 'post',
-      headers: {
-        // "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      data: formData,
-    });
-    return response.data // Return uploaded file URL or success message
-  } catch (error) {
-    throw new Error("Failed to upload profile picture. Try again.");
-  }
+  const response = await axios({
+    url: `${BACKEND_URL}/picture/upload`,
+    method: 'post',
+    headers: {
+      // "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: formData,
+  });
+  return response.data // Return uploaded file URL or success message
 };
+
+export const downloadProfilePicture = async (filename: string): Promise<File> => {
+
+  const response = await axios({
+    url: `${BACKEND_URL}/picture/download`,
+    method: 'get',
+    headers: {
+      // "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: filename,
+  });
+  return response.data
+
+}

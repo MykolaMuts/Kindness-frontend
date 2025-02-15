@@ -4,11 +4,12 @@ import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus
 import {useAuth} from "../hooks/useAuth.tsx";
 import {categoriesList, citiesList, IUserServiceData} from "../App.constants.tsx";
 import {uploadProfilePicture} from "../services/picture.service.tsx";
+import ProfilePicture from "../components/ProfilePicture/ProfilePicture.tsx";
 
 export default function ProfilePage() {
 
 
-  const { user } = useAuth(); // Get logged-in user
+  const {user} = useAuth();
 
   const [formData, setFormData] = useState<IUserServiceData>({
     description: user?.serviceData?.description || "",
@@ -28,13 +29,13 @@ export default function ProfilePage() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({...formData, [e.target.name]: e.target.value});
   };
 
   const handleUpload = async () => {
     if (selectedFile) {
       try {
-        await uploadProfilePicture(selectedFile);
+        user.profilePicUrl = await uploadProfilePicture(selectedFile);
       } catch (error) {
         console.error(error);
         alert("Upload failed!");
@@ -92,11 +93,7 @@ export default function ProfilePage() {
 
       {/* Profile Picture */}
       <div className="flex flex-col items-center mb-6">
-        <img
-          src={user?.profilePicUrl}
-          alt="Profile"
-          className="w-32 h-32 rounded-full border mb-2"
-        />
+        <ProfilePicture profilePicUrl={user?.profilePicUrl} />
         <input type="file" onChange={handleFileChange} className="mb-2"/>
         <button
           onClick={handleUpload}
@@ -160,7 +157,7 @@ export default function ProfilePage() {
         <select
           className="w-full p-2 border rounded-md"
           value={formData.city}
-          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+          onChange={(e) => setFormData({...formData, city: e.target.value})}
         >
           <option value="">Select City</option>
           {citiesList.map((city) => (
