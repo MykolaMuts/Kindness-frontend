@@ -1,33 +1,33 @@
 import {useState, useEffect, FC} from "react";
-
-import defaultProfilePic from '@/assets/Default-avatar.png'
-import {useAuth} from "../../hooks/useAuth.tsx";
+import defaultProfilePic from '@/assets/images.png'
 import {downloadProfilePicture} from "../../services/picture.service.tsx";
 
 interface ProfilePictureProps {
-  profilePicUrl?: string; // User's profile picture URL
+  profilePicUrl?: string;
 }
 
-const ProfilePicture: FC<ProfilePictureProps> = ( ) => {
-
-  const {user} = useAuth();
+const ProfilePicture: FC<ProfilePictureProps> = ({ profilePicUrl }) => {
 
   const [profilePic, setProfilePic] = useState<string>(defaultProfilePic);
 
   useEffect(() => {
+
+    //todo fix later
     const fetchProfilePic = async () => {
       try {
-        const storedPic = localStorage.getItem("profilePicUrl");
-
+        // Check if we have a cached image
+        const storedPic = localStorage.getItem("profilePic");
         if (storedPic) {
           setProfilePic(storedPic);
-        } else if (user?.profilePicUrl) {
-          const response = await downloadProfilePicture(user.profilePicUrl)
-          if (response) {
-            const blob = await response.blob();
-            const objectUrl = URL.createObjectURL(blob);
-            setProfilePic(objectUrl);
-            localStorage.setItem("profilePicUrl", objectUrl);
+          return;
+        }
+
+        // If the user has uploaded a picture, download it
+        if (!storedPic && profilePicUrl) {
+          const imageUrl = await downloadProfilePicture(profilePicUrl);
+          if (imageUrl) {
+            setProfilePic(imageUrl);
+            localStorage.setItem("profilePic", imageUrl); // Cache for later use
           } else {
             setProfilePic(defaultProfilePic);
           }
@@ -39,7 +39,7 @@ const ProfilePicture: FC<ProfilePictureProps> = ( ) => {
     };
 
     fetchProfilePic();
-  }, [user?.profilePicUrl]);
+  }, [profilePicUrl]);
 
   return (
     <img

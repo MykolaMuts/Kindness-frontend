@@ -4,6 +4,7 @@ import AppRoutes from "./AppRoutes.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import {BrowserRouter} from "react-router-dom";
+import Tests1 from "./pages/Tests1.tsx";
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
         <BrowserRouter>
           <Navbar isTopOfPage={isTopOfPage}/>
           <AppRoutes/>
+          <Tests1></Tests1>
         </BrowserRouter>
       </AuthProvider>
 

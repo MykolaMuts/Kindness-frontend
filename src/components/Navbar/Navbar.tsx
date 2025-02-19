@@ -7,6 +7,7 @@ import {useState} from "react";
 import NavbarLink from "./NavbarLink.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../hooks/useAuth.tsx";
+import ProfilePicture from "../ProfilePicture/ProfilePicture.tsx";
 
 type Props = {
   isTopOfPage: boolean;
@@ -62,6 +63,7 @@ const Navbar = ({isTopOfPage}: Props) => {
                       >
                         Logout
                       </button>
+                      <ProfilePicture profilePicUrl={user.profilePicUrl} />
                     </div>
                   ) : (
                     <>

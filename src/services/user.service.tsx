@@ -39,13 +39,13 @@ export const logoutUser = () => {
 };
 
 export async function updateUserServiceData(data: IUserServiceData) {
-  const response = await fetch(`${BACKEND_URL}/user/update-profile`, {
-    method: "put",
+  return axios({
+    method: 'put',
+    url: `${BACKEND_URL}/user/update-profile`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    credentials: "include",
-    body: JSON.stringify(data),
+    withCredentials: true,
+    data: data
   });
-  return response.json();
 }

@@ -1,15 +1,16 @@
-import React, {useState, ChangeEvent} from "react";
+import {useState, ChangeEvent, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import {updateUserServiceData,} from "../services/user.service.tsx";
 import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
 import {useAuth} from "../hooks/useAuth.tsx";
-import {categoriesList, citiesList, IUserServiceData} from "../App.constants.tsx";
+import {categoriesList, citiesList, IUserServiceData, SelectedPages} from "../App.constants.tsx";
 import {uploadProfilePicture} from "../services/picture.service.tsx";
-import ProfilePicture from "../components/ProfilePicture/ProfilePicture.tsx";
+import defaultProfilePic from '@/assets/images.png'
 
 export default function ProfilePage() {
 
-
   const {user} = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<IUserServiceData>({
     description: user?.serviceData?.description || "",
@@ -21,6 +22,16 @@ export default function ProfilePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+
+  // Redirect if user is null
+  useEffect(() => {
+    if (!user) {
+      navigate(SelectedPages.Login);
+    }
+  }, [user, navigate]);
+
+  if (!user) return null;
+
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -44,10 +55,6 @@ export default function ProfilePage() {
   };
 
   const handleUpdateProfile = async () => {
-    if (!user) {
-      setError("User not found!");
-      return;
-    }
 
     try {
       await updateUserServiceData(formData);
@@ -79,7 +86,6 @@ export default function ProfilePage() {
     }
   };
 
-  // Remove category
   const removeCategory = (category: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -93,7 +99,11 @@ export default function ProfilePage() {
 
       {/* Profile Picture */}
       <div className="flex flex-col items-center mb-6">
-        <ProfilePicture profilePicUrl={user?.profilePicUrl} />
+        <img
+          src={localStorage.getItem("profilePic") || defaultProfilePic}
+          alt="Profile"
+          className="w-32 h-32 rounded-full border mb-2"
+        />
         <input type="file" onChange={handleFileChange} className="mb-2"/>
         <button
           onClick={handleUpload}

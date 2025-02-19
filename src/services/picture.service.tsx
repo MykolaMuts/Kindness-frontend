@@ -30,19 +30,20 @@ export const uploadProfilePicture = async (file: File): Promise<string> => {
     data: formData,
   });
   return response.data // Return uploaded file URL or success message
-};
+}
 
-export const downloadProfilePicture = async (filename: string): Promise<File> => {
+export const downloadProfilePicture = async (filename: string): Promise<string> => {
 
   const response = await axios({
     url: `${BACKEND_URL}/picture/download`,
+    params: filename,
     method: 'get',
     headers: {
       // "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    data: filename,
+    responseType: 'blob',
   });
-  return response.data
 
+  return URL.createObjectURL(response.data);
 }
