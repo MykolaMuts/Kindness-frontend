@@ -39,7 +39,7 @@ export interface IEventData {
   authorId: number;
   title: string;
   description: string;
-  location: string;
+  city: string;
   date: string;
 }
 

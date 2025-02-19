@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import {useAuth} from "../../hooks/useAuth.tsx";
-import {SelectedPages} from "../../App.constants.tsx";
+import {useAuth} from "../hooks/useAuth.tsx";
+import {SelectedPages} from "../App.constants.tsx";
 
 interface ProtectedRouteProps {
   requiredRoles?: string[];

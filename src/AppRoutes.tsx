@@ -4,7 +4,7 @@ import {Roles, SelectedPages} from "./App.constants.tsx";
 import Tests1 from "./pages/Tests1.tsx";
 import Login from "./pages/LoginPage.tsx";
 import Registration from "./pages/RegistrationPage.tsx";
-import ProtectedRoute from "./components/ProtectedRouter/ProtectedRouter.tsx";
+import ProtectedRoute from "./components/ProtectedRouter.tsx";
 import AddEventPage from "./pages/AddEventPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 

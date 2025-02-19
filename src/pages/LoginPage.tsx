@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useAuth } from '../hooks/useAuth.tsx';
 import { useNavigate } from 'react-router-dom';
 import { SelectedPages } from '../App.constants.tsx';
-import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus.tsx";
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });

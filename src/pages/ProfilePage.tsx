@@ -1,7 +1,7 @@
 import {useState, ChangeEvent, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {updateUserServiceData,} from "../services/user.service.tsx";
-import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus.tsx";
 import {useAuth} from "../hooks/useAuth.tsx";
 import {categoriesList, citiesList, IUserServiceData, SelectedPages} from "../App.constants.tsx";
 import {uploadProfilePicture} from "../services/picture.service.tsx";

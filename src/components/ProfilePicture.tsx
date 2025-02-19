@@ -1,6 +1,6 @@
 import {useState, useEffect, FC} from "react";
 import defaultProfilePic from '@/assets/images.png'
-import {downloadProfilePicture} from "../../services/picture.service.tsx";
+import {downloadProfilePicture} from "../services/picture.service.tsx";
 
 interface ProfilePictureProps {
   profilePicUrl?: string;

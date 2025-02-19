@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {useAuth} from "../hooks/useAuth.tsx";
 import {addEvent} from "../services/event.service.tsx";
-import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus.tsx";
 
 interface EventFormData {
   title: string;
   description: string;
-  location: string;
+  city: string;
   date: string;
 }
 
@@ -15,7 +15,7 @@ const AddEventPage: React.FC = () => {
   const [formData, setFormData] = useState<EventFormData>({
     title: '',
     description: '',
-    location: '',
+    city: '',
     date: '',
   });
 
@@ -51,7 +51,7 @@ const AddEventPage: React.FC = () => {
       setFormData({
         title: '',
         description: '',
-        location: '',
+        city: '',
         date: '',
       });
       alert('Event created successfully!');
@@ -100,34 +100,34 @@ const AddEventPage: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-            Location
+          <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+            City
           </label>
           <input
             type="text"
-            id="location"
-            name="location"
-            value={formData.location}
+            id="city"
+            name="city"
+            value={formData.city}
             onChange={handleChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
             required
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="date" className="block text-sm font-medium text-gray-700">
-            Date
-          </label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-            required
-          />
-        </div>
+        {/*<div className="mb-4">*/}
+        {/*  <label htmlFor="date" className="block text-sm font-medium text-gray-700">*/}
+        {/*    Date*/}
+        {/*  </label>*/}
+        {/*  <input*/}
+        {/*    type="date"*/}
+        {/*    id="date"*/}
+        {/*    name="date"*/}
+        {/*    value={formData.date}*/}
+        {/*    onChange={handleChange}*/}
+        {/*    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*</div>*/}
 
         <button
           type="submit"
