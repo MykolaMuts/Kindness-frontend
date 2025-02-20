@@ -20,13 +20,9 @@ export interface IUserData {
   password: string;
   email: string;
   role: string[];
-  serviceData : IUserServiceData
-}
-
-export interface IRegistrationForm {
-  username: string;
-  email: string;
-  password: string;
+  description: string;
+  serviceCategory: string[];
+  city: string;
 }
 
 export interface IUserServiceData {
@@ -35,12 +31,28 @@ export interface IUserServiceData {
   city: string;
 }
 
-export interface IEventData {
+export interface IRegistrationForm {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface IEventRequestData {
   authorId: number;
   title: string;
   description: string;
   city: string;
   date: string;
+}
+
+export interface IEventData {
+  id: number;
+  title: string;
+  description: string;
+  city: string;
+  date: string;
+  authorId: number;
+  authorUsername: string;
 }
 
 export enum ScreenSize {

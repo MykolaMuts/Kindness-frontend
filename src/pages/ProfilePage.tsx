@@ -13,9 +13,9 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<IUserServiceData>({
-    description: user?.serviceData?.description || "",
-    serviceCategory: user?.serviceData?.serviceCategory || [],
-    city: user?.serviceData?.city || "",
+    description: user?.description || "",
+    serviceCategory: user?.serviceCategory || [],
+    city: user?.city || "",
   });
 
   const [newCategory, setNewCategory] = useState("");
@@ -31,7 +31,6 @@ export default function ProfilePage() {
   }, [user, navigate]);
 
   if (!user) return null;
-
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {

@@ -1,5 +1,5 @@
 import React, {createContext, useState, useEffect} from 'react';
-import {fetchUserData, loginUser, logoutUser} from '../services/user.service.tsx';
+import {fetchMyUserData, loginUser, logoutUser} from '../services/user.service.tsx';
 import {IUserData} from "../App.constants.tsx";
 
 interface AuthContextType {
@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
   const getUserInfo = async () => {
     try {
       console.log("Getting user information");
-      const response = await fetchUserData();
+      const response = await fetchMyUserData();
       if (response.status === 200) {
         setUser(response.data);
         localStorage.setItem("user", JSON.stringify(response.data));
