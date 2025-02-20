@@ -26,7 +26,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const response = await loginUser({username, password});
     if (response.status === 200 && response.data.token) {
       const jwtToken = response.data.token;
-      console.log(jwtToken);
 
       localStorage.setItem("token", jwtToken);
       await getUserInfo()
