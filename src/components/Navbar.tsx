@@ -63,7 +63,7 @@ const Navbar = ({isTopOfPage}: Props) => {
                       >
                         Logout
                       </button>
-                      <ProfilePicture profilePicUrl={user.profilePicUrl} />
+                      <ProfilePicture username={user.username} />
                     </div>
                   ) : (
                     <>

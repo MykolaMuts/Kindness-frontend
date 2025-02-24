@@ -1,7 +1,6 @@
 import axios from "axios";
 import {BACKEND_URL} from "../App.constants.tsx";
 
-// Allowed file types
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -21,7 +20,7 @@ export const uploadProfilePicture = async (file: File): Promise<string> => {
   formData.append("file", file);
 
   const response = await axios({
-    url: `${BACKEND_URL}/picture/upload`,
+    url: `${BACKEND_URL}/picture/upload-profile-picture`,
     method: 'post',
     headers: {
       // "Content-Type": "multipart/form-data",
@@ -29,21 +28,25 @@ export const uploadProfilePicture = async (file: File): Promise<string> => {
     },
     data: formData,
   });
-  return response.data // Return uploaded file URL or success message
+  return response.data;
 }
 
-export const downloadProfilePicture = async (filename: string): Promise<string> => {
+export const downloadProfilePicture = async (username: string): Promise<string | null> => {
+  try {
 
-  const response = await axios({
-    url: `${BACKEND_URL}/picture/download`,
-    params: filename,
-    method: 'get',
-    headers: {
-      // "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-    responseType: 'blob',
-  });
+    const response = await axios({
+      url: `${BACKEND_URL}/picture/download-profile-picture`,
+      params: {username},
+      method: 'get',
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      responseType: 'blob',
+    });
 
-  return URL.createObjectURL(response.data);
+    return URL.createObjectURL(response.data);
+  } catch {
+    return null;
+  }
 }

@@ -1,51 +1,62 @@
 import {useState, useEffect, FC} from "react";
-import defaultProfilePic from '@/assets/images.png'
+import defaultProfilePic from "@/assets/images.png";
 import {downloadProfilePicture} from "../services/picture.service.tsx";
 
 interface ProfilePictureProps {
-  profilePicUrl?: string;
+  username: string;
+  size: number;
 }
 
-const ProfilePicture: FC<ProfilePictureProps> = ({ profilePicUrl }) => {
-
+const ProfilePicture: FC<ProfilePictureProps> = ({ username, size = 32 }) => {
   const [profilePic, setProfilePic] = useState<string>(defaultProfilePic);
 
   useEffect(() => {
-
-    //todo fix later
     const fetchProfilePic = async () => {
+      if (!username) return;
+
       try {
-        // Check if we have a cached image
-        const storedPic = localStorage.getItem("profilePic");
-        if (storedPic) {
-          setProfilePic(storedPic);
+        const cachedPic = localStorage.getItem(`profilePic-${username}`);
+        if (cachedPic !== null) {
+          setProfilePic(cachedPic);
           return;
         }
 
-        // If the user has uploaded a picture, download it
-        if (!storedPic && profilePicUrl) {
-          const imageUrl = await downloadProfilePicture(profilePicUrl);
-          if (imageUrl) {
-            setProfilePic(imageUrl);
-            localStorage.setItem("profilePic", imageUrl); // Cache for later use
-          } else {
-            setProfilePic(defaultProfilePic);
-          }
+        const blobUrl = await downloadProfilePicture(username);
+        if (blobUrl !== null) {
+          setProfilePic(blobUrl);
+          localStorage.setItem(`profilePic-${username}`, blobUrl);
+
+          window.dispatchEvent(new Event("profilePicUpdated"));
         }
       } catch (error) {
         console.error("Error fetching profile picture", error);
-        setProfilePic(defaultProfilePic);
       }
     };
 
     fetchProfilePic();
-  }, [profilePicUrl]);
+
+    // Listen for changes in localStorage
+    const handleProfilePicUpdate = () => {
+      const updatedPic = localStorage.getItem(`profilePic-${username}`);
+      if (updatedPic) {
+        console.log("Profile picture updated from event.");
+        setProfilePic(updatedPic);
+      }
+    };
+
+    window.addEventListener("profilePicUpdated", handleProfilePicUpdate);
+
+    return () => {
+      window.removeEventListener("profilePicUpdated", handleProfilePicUpdate);
+    };
+  }, [username]); // Only re-run when username changes
 
   return (
     <img
       src={profilePic}
       alt="Profile"
-      className="w-32 h-32 rounded-full border mb-2 object-cover"
+      className={`w-${size} h-${size} rounded-full border mb-2 object-cover`}
+      style={{width: `${size}px`, height: `${size}px`}}
     />
   );
 };

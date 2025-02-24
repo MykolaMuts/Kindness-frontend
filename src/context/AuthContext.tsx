@@ -57,7 +57,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    localStorage.removeItem("profilePic");
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith("profilePic-")) {
+        localStorage.removeItem(key);
+      }
+    });
   };
 
   return (

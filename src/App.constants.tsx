@@ -14,6 +14,7 @@ export enum SelectedPages {
 }
 
 export interface IUserData {
+  eventList: IEventData[];
   id: number;
   profilePicUrl: string;
   username: string;

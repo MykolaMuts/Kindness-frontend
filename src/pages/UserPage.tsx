@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {IUserData} from "../App.constants.tsx";
+import {IEventData, IUserData} from "../App.constants.tsx";
 import {formatDistanceToNow} from "date-fns";
 import {fetchUserData} from "../services/user.service.tsx";
+import ProfilePicture from "../components/ProfilePicture.tsx";
 
 
 const EventCard: React.FC<{ event: IEventData }> = ({event}) => {
@@ -45,6 +46,7 @@ const UserPage: React.FC = () => {
 
   return (
     <div className="p-4">
+      <ProfilePicture username={userData.username} size={100} />
       <h1 className="text-2xl font-bold">{userData.username}</h1>
       <p className="text-gray-700">{userData.description}</p>
       <p className="text-sm text-gray-500">City: {userData.city}</p>

@@ -23,7 +23,7 @@ const AppRoutes: React.FC = () => (
       <Route path={SelectedPages.Admin} element={<Tests1/>}/>
     </Route>
 
-    <Route path="/" element={<Navigate to={SelectedPages.Home} replace/>}/>
+    {/*<Route path="/" element={<Navigate to={SelectedPages.Home} replace/>}/>*/}
     <Route path="/user/:userId" element={<UserPage/>}/>
     <Route path={SelectedPages.Home} element={<EventList/>}/>
     <Route path={SelectedPages.Login} element={<Login/>}/>

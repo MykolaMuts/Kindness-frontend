@@ -4,6 +4,7 @@ import useMediaQuery from "../hooks/useMediaQuery";
 import {fetchEvents} from "../services/event.service.tsx";
 import {IEventData} from "../App.constants.tsx";
 import {Link} from "react-router-dom";
+import ProfilePicture from "./ProfilePicture.tsx";
 
 const EventCard: React.FC<{ event: IEventData }> = ({event}) => {
   return (
@@ -19,6 +20,7 @@ const EventCard: React.FC<{ event: IEventData }> = ({event}) => {
         <Link to={`/user/${event.authorId}`} className="hover:underline">
           {event.authorUsername}
         </Link>
+        <ProfilePicture username={event.authorUsername} size={25} />
       </p>
     </div>
   );

@@ -1,11 +1,11 @@
-import {useState, ChangeEvent, useEffect} from "react";
+import React, {useState, ChangeEvent, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {updateUserServiceData,} from "../services/user.service.tsx";
 import ShowRequestStatus from "../components/ShowRequestStatus.tsx";
 import {useAuth} from "../hooks/useAuth.tsx";
 import {categoriesList, citiesList, IUserServiceData, SelectedPages} from "../App.constants.tsx";
 import {uploadProfilePicture} from "../services/picture.service.tsx";
-import defaultProfilePic from '@/assets/images.png'
+import ProfilePicture from "../components/ProfilePicture.tsx";
 
 export default function ProfilePage() {
 
@@ -46,6 +46,12 @@ export default function ProfilePage() {
     if (selectedFile) {
       try {
         user.profilePicUrl = await uploadProfilePicture(selectedFile);
+        // full reset photo cache
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith("profilePic-")) {
+            localStorage.removeItem(key);
+          }
+        });
       } catch (error) {
         console.error(error);
         alert("Upload failed!");
@@ -98,11 +104,7 @@ export default function ProfilePage() {
 
       {/* Profile Picture */}
       <div className="flex flex-col items-center mb-6">
-        <img
-          src={localStorage.getItem("profilePic") || defaultProfilePic}
-          alt="Profile"
-          className="w-32 h-32 rounded-full border mb-2"
-        />
+        <ProfilePicture username={user.username} size={400}/>
         <input type="file" onChange={handleFileChange} className="mb-2"/>
         <button
           onClick={handleUpload}
