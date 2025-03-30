@@ -8,7 +8,7 @@ export enum SelectedPages {
   Registration = "/registration",
   Benefit = "/benefit",
   Contact = "/contact",
-  About = "/aboutus",
+  About = "https://fundacjaglosmlodych.org/",
   Admin = "/admin",
   Unauthorized = "/unauthorized",
 }
@@ -54,6 +54,7 @@ export interface IEventData {
   date: string;
   authorId: number;
   authorUsername: string;
+  authorEmail: string;
 }
 
 export enum ScreenSize {
@@ -76,4 +77,16 @@ export const categoriesList = [
   "OTHER",
 ];
 
-export const citiesList = ["New York", "Los Angeles", "Chicago", "Houston", "Miami"]; // Example cities
+export const citiesList = [
+  // Poland
+  "Warsaw", "Krakow", "Wroclaw", "Poznan", "Gdansk",
+  "Szczecin", "Lodz", "Katowice", "Lublin", "Bialystok",
+
+  // Czech Republic
+  "Prague", "Brno", "Ostrava", "Plzen", "Liberec",
+  "Olomouc", "Ceske Budejovice", "Hradec Kralove", "Pardubice", "Zlín",
+
+  // Germany
+  "Berlin", "Munich", "Hamburg", "Frankfurt", "Cologne",
+  "Stuttgart", "Düsseldorf", "Dortmund", "Essen", "Leipzig"
+];
