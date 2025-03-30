@@ -1,5 +1,5 @@
 import React, {createContext, useState, useEffect} from 'react';
-import {fetchUserData, loginUser, logoutUser} from '../services/user.service.tsx';
+import {fetchMyUserData, loginUser, logoutUser} from '../services/user.service.tsx';
 import {IUserData} from "../App.constants.tsx";
 
 interface AuthContextType {
@@ -26,7 +26,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const response = await loginUser({username, password});
     if (response.status === 200 && response.data.token) {
       const jwtToken = response.data.token;
-      console.log(jwtToken);
 
       localStorage.setItem("token", jwtToken);
       await getUserInfo()
@@ -39,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
   const getUserInfo = async () => {
     try {
       console.log("Getting user information");
-      const response = await fetchUserData();
+      const response = await fetchMyUserData();
       if (response.status === 200) {
         setUser(response.data);
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -58,6 +57,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith("profilePic-")) {
+        localStorage.removeItem(key);
+      }
+    });
   };
 
   return (

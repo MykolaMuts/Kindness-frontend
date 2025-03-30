@@ -1,8 +1,8 @@
-import Navbar from "./components/Navbar/Navbar.tsx";
+import Navbar from "./components/Navbar.tsx";
 import {useState, useEffect} from "react";
 import AppRoutes from "./AppRoutes.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
-import Footer from "./components/Footer/Footer.tsx";
+import Footer from "./components/Footer.tsx";
 import {BrowserRouter} from "react-router-dom";
 
 function App() {

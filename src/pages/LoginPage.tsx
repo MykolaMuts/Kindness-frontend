@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useAuth } from '../hooks/useAuth.tsx';
 import { useNavigate } from 'react-router-dom';
 import { SelectedPages } from '../App.constants.tsx';
-import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus.tsx";
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -10,8 +10,17 @@ const LoginPage: React.FC = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
+
+  // Redirect if user is null
+  useEffect(() => {
+    if (user) {
+      navigate(SelectedPages.Home);
+    }
+  }, [user, navigate]);
+
+  if (user) return null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;

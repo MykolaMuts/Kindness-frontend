@@ -3,7 +3,7 @@ import {addUser} from "../services/user.service.tsx";
 import {useAuth} from "../hooks/useAuth.tsx";
 import {IRegistrationForm, SelectedPages} from "../App.constants.tsx";
 import {useNavigate} from "react-router-dom";
-import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus.tsx";
 
 const RegistrationPage: React.FC = () => {
   const [formData, setFormData] = useState<IRegistrationForm>({
@@ -55,7 +55,7 @@ const RegistrationPage: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-700">Register</h2>
 

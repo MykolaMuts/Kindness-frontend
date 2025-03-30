@@ -1,26 +1,36 @@
-import React, {useState, ChangeEvent} from "react";
+import React, {useState, ChangeEvent, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import {updateUserServiceData,} from "../services/user.service.tsx";
-import ShowRequestStatus from "../components/ShowRequestStatus/ShowRequestStatus.tsx";
+import ShowRequestStatus from "../components/ShowRequestStatus.tsx";
 import {useAuth} from "../hooks/useAuth.tsx";
-import {categoriesList, citiesList, IUserServiceData} from "../App.constants.tsx";
+import {categoriesList, citiesList, IUserServiceData, SelectedPages} from "../App.constants.tsx";
 import {uploadProfilePicture} from "../services/picture.service.tsx";
-import ProfilePicture from "../components/ProfilePicture/ProfilePicture.tsx";
+import ProfilePicture from "../components/ProfilePicture.tsx";
 
 export default function ProfilePage() {
 
-
   const {user} = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<IUserServiceData>({
-    description: user?.serviceData?.description || "",
-    serviceCategory: user?.serviceData?.serviceCategory || [],
-    city: user?.serviceData?.city || "",
+    description: user?.description || "",
+    serviceCategory: user?.serviceCategory || [],
+    city: user?.city || "",
   });
 
   const [newCategory, setNewCategory] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+
+  // Redirect if user is null
+  useEffect(() => {
+    if (!user) {
+      navigate(SelectedPages.Login);
+    }
+  }, [user, navigate]);
+
+  if (!user) return null;
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -36,6 +46,12 @@ export default function ProfilePage() {
     if (selectedFile) {
       try {
         user.profilePicUrl = await uploadProfilePicture(selectedFile);
+        // full reset photo cache
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith("profilePic-")) {
+            localStorage.removeItem(key);
+          }
+        });
       } catch (error) {
         console.error(error);
         alert("Upload failed!");
@@ -44,10 +60,6 @@ export default function ProfilePage() {
   };
 
   const handleUpdateProfile = async () => {
-    if (!user) {
-      setError("User not found!");
-      return;
-    }
 
     try {
       await updateUserServiceData(formData);
@@ -79,7 +91,6 @@ export default function ProfilePage() {
     }
   };
 
-  // Remove category
   const removeCategory = (category: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -93,7 +104,7 @@ export default function ProfilePage() {
 
       {/* Profile Picture */}
       <div className="flex flex-col items-center mb-6">
-        <ProfilePicture profilePicUrl={user?.profilePicUrl} />
+        <ProfilePicture username={user.username} size={400}/>
         <input type="file" onChange={handleFileChange} className="mb-2"/>
         <button
           onClick={handleUpload}

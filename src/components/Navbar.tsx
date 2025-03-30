@@ -1,12 +1,13 @@
 import "./Navbar.scss";
 import Logo from '@/assets/Logo.png';
-import {ScreenSize, SelectedPages} from "../../App.constants.tsx";
-import useMediaQuery from "../../hooks/useMediaQuery.ts";
+import {ScreenSize, SelectedPages} from "../App.constants.tsx";
+import useMediaQuery from "../hooks/useMediaQuery.ts";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/16/solid";
 import {useState} from "react";
 import NavbarLink from "./NavbarLink.tsx";
 import {Link, useNavigate} from "react-router-dom";
-import {useAuth} from "../../hooks/useAuth.tsx";
+import {useAuth} from "../hooks/useAuth.tsx";
+import ProfilePicture from "./ProfilePicture.tsx";
 
 type Props = {
   isTopOfPage: boolean;
@@ -62,6 +63,7 @@ const Navbar = ({isTopOfPage}: Props) => {
                       >
                         Logout
                       </button>
+                      <ProfilePicture username={user.username} size={40}/>
                     </div>
                   ) : (
                     <>

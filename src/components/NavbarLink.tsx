@@ -1,4 +1,4 @@
-import { SelectedPages } from "../../App.constants.tsx";
+import { SelectedPages } from "../App.constants.tsx";
 import {Link} from "react-router-dom";
 
 type Props = {
